@@ -129,4 +129,71 @@ public class ProdukTest {
         assertNotEquals(produk1, produk3); // kode berbeda
         assertEquals(produk1.hashCode(), produk2.hashCode());
     }
+    @Test
+    @DisplayName("Test constructor tanpa argumen menghasilkan nilai default")
+    void testConstructorNoArgs() {
+        Produk p = new Produk();
+        assertNull(p.getKode());
+        assertNull(p.getNama());
+        assertNull(p.getKategori());
+        assertEquals(0.0, p.getHarga());
+        assertEquals(0, p.getStok());
+        assertEquals(0, p.getStokMinimum());
+        assertFalse(p.isAktif());
+    }
+    @Test
+    @DisplayName("Test setter dan getter berfungsi dengan benar")
+    void testSetterGetter() {
+        Produk p = new Produk();
+        p.setKode("X001");
+        p.setNama("Keyboard");
+        p.setKategori("Elektronik");
+        p.setHarga(250000.0);
+        p.setStok(20);
+        p.setStokMinimum(5);
+        p.setAktif(true);
+        assertEquals("X001", p.getKode());
+        assertEquals("Keyboard", p.getNama());
+        assertEquals("Elektronik", p.getKategori());
+        assertEquals(250000.0, p.getHarga());
+        assertEquals(20, p.getStok());
+        assertEquals(5, p.getStokMinimum());
+        assertTrue(p.isAktif());
+    }
+
+    @Test
+    @DisplayName("Test equals - objek sama (referensi sama)")
+    void testEqualsSameReference() {
+        assertTrue(produk.equals(produk));
+    }
+    @Test
+    @DisplayName("Test equals - dibandingkan dengan null")
+    void testEqualsNull() {
+        assertFalse(produk.equals(null));
+    }
+    @Test
+    @DisplayName("Test equals - dibandingkan dengan objek kelas lain")
+    void testEqualsDifferentClass() {
+        assertFalse(produk.equals("string bukan produk"));
+    }
+    @Test
+    @DisplayName("Test toString mengandung semua field utama")
+    void testToStringContains() {
+        String str = produk.toString();
+        assertTrue(str.contains("kode='PROD001'"));
+        assertTrue(str.contains("nama='Laptop Gaming'"));
+        assertTrue(str.contains("kategori='Elektronik'"));
+        assertTrue(str.contains("stok=10"));
+        assertTrue(str.contains("stokMinimum=5"));
+        assertTrue(str.contains("aktif=true"));
+    }
+    @Test
+    @DisplayName("Test toString format harga fleksibel")
+    void testToStringRegex() {
+        String str = produk.toString();
+        assertTrue(str.matches(
+                "Produk\\{kode='PROD001', nama='Laptop Gaming', kategori='Elektronik', harga=.*?, stok=10, stokMinimum=5, aktif=true}"
+        ));
+    }
+
 }
